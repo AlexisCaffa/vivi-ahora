@@ -1,0 +1,50 @@
+html, body{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    background-color: #000;
+    font-size: 100%;
+}
+
+.obra{
+    width: 100%;
+    height: auto;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+}
+
+.cartel{
+    width: 80%;
+    height: 40%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+}
+
+.precio{
+    width: 100%;
+    height: 45%;
+    background-color: red;
+}
+
+.botón {
+    width: 100%;
+    height: 55%;
+    background-color: white;
+    border-radius: 20px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 2rem;
+}
+
+/* cuenta regresiva  http://codepen.io/MehmetCanker/pen/jluqp */
+
+/* formas de centrar -> https://escss.blogspot.com/2012/05/centrando-al-centro-con-css-16-maneras.html */
