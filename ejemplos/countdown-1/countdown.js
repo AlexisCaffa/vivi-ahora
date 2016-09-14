@@ -6,6 +6,10 @@ elemento_precio = jQuery('#precio');
 // creo el inicio del numero
 var i = 999.99;
 
+/*
+ * Creo la función disminuir
+ * [ No recibe ningún parámetro ]
+ */
 function disminuir() {
   // Para debug: muestro el valor del numero
   console.log(i);
@@ -19,6 +23,11 @@ function disminuir() {
   i = i - 0.01;
 }
 
-
+/*
+ * Ejecuto la funció setInterval
+ * Recibe 2 parametros:
+ *  1. [Funcion]: La función a ejecutarse cada determinado tiempo
+ *  2. [Numero entero]: El tiempo en milisegundos que debe durar el intervalo.
+ */
 setInterval(disminuir, 1000);
 
