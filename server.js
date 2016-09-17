@@ -30,6 +30,29 @@ var App = function(){
   //default response with info about app URLs
   self.routes['root'] = function(req, res){ 
     res.sendFile(path.join(__dirname+'/index.html'));
+
+    var findDocuments = function(db, callback) {
+      // Get the documents collection
+      var collection = db.collection('inserts');
+      // Find some documents
+      collection.find({}).toArray(function(err, docs) {
+        console.log("Found the following records");
+        console.log(docs);
+        // callback(docs);
+      });
+    };
+    findDocuments(self.db);
+
+    // Insert a single document
+    self.db.collection('inserts').insertOne({a:1, askj:12}, function(err, r) {
+      var a = 0;
+      // Insert multiple documents
+      self.db.collection('inserts').insertMany([{a:2}, {a:3}], function(err, r) {
+        var a = 0;
+      });
+    });
+
+
   };
 
   //returns all the parks in the collection
