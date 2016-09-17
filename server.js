@@ -2,6 +2,7 @@
 
 var express = require('express');
 var fs      = require('fs');
+var path    = require('path');
 var mongodb = require('mongodb');
 
 var App = function(){
@@ -10,13 +11,13 @@ var App = function(){
   var self = this;
 
   // Setup
-  self.dbServer = new mongodb.Server(process.env.OPENSHIFT_MONGODB_DB_HOST,parseInt(process.env.OPENSHIFT_MONGODB_DB_PORT));
+  self.dbServer = new mongodb.Server(process.env.OPENSHIFT_MONGODB_DB_HOST || '127.0.0.1',parseInt(process.env.OPENSHIFT_MONGODB_DB_PORT));
   self.db = new mongodb.Db(process.env.OPENSHIFT_APP_NAME, self.dbServer, {auto_reconnect: true});
   self.dbUser = process.env.OPENSHIFT_MONGODB_DB_USERNAME;
   self.dbPass = process.env.OPENSHIFT_MONGODB_DB_PASSWORD;
 
-  self.ipaddr  = process.env.OPENSHIFT_NODEJS_IP;
-  self.port    = parseInt(process.env.OPENSHIFT_NODEJS_PORT) || 8080;
+  self.ipaddr  = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
+  self.port    = parseInt(process.env.OPENSHIFT_NODEJS_PORT) || 8000;
   if (typeof self.ipaddr === "undefined") {
     console.warn('No OPENSHIFT_NODEJS_IP environment variable');
   };
@@ -28,9 +29,7 @@ var App = function(){
   
   //default response with info about app URLs
   self.routes['root'] = function(req, res){ 
-    res.send('You have come to the park apps web service. All the web services are at /ws/parks*. \
-      For example /ws/parks will return all the parks in the system in a JSON payload. \
-      Thanks for stopping by and have a nice day'); 
+    res.sendFile(path.join(__dirname+'/index.html'));
   };
 
   //returns all the parks in the collection
@@ -94,7 +93,7 @@ var App = function(){
   var bodyParser = require('body-parser');
   var methodOverride = require('method-override');
   // parse application/x-www-form-urlencoded
-  self.app.use(bodyParser.urlencoded());
+  self.app.use(bodyParser.urlencoded({ extended: true }));
   // parse application/json
   self.app.use(bodyParser.json());
   // override with POST having ?_method=DELETE
