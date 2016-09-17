@@ -1,5 +1,5 @@
 
-// obtengo el DIV
+// obtengo el DIV con id="precio"
 var elemento_precio;
 elemento_precio = jQuery('#precio');
 
@@ -15,16 +15,16 @@ function disminuir() {
   console.log(i);
 
   // redondeo el numero
-  var numero = Math.floor(i * 100) / 100;
+  i = Math.floor(i * 100) / 100;
   // lo muestro en el DIV
-  elemento_precio.text(numero);
+  elemento_precio.text(i);
 
   // disminuyo el contenido de i
   i = i - 0.01;
 }
 
 /*
- * Ejecuto la funció setInterval
+ * Ejecuto la función setInterval
  * Recibe 2 parametros:
  *  1. [Funcion]: La función a ejecutarse cada determinado tiempo
  *  2. [Numero entero]: El tiempo en milisegundos que debe durar el intervalo.
