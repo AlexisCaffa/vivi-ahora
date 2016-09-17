@@ -17,7 +17,7 @@ var App = function(){
   self.dbPass = process.env.OPENSHIFT_MONGODB_DB_PASSWORD;
 
   self.ipaddr  = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
-  self.port    = parseInt(process.env.OPENSHIFT_NODEJS_PORT) || 8000;
+  self.port    = parseInt(process.env.OPENSHIFT_NODEJS_PORT) || 3000;
   if (typeof self.ipaddr === "undefined") {
     console.warn('No OPENSHIFT_NODEJS_IP environment variable');
   };
