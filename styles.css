@@ -83,6 +83,47 @@ h1,h2,h3,h4,h5,h6 {
     margin-top: 32%;
 }
 
+.input{
+    width: 100%;
+    height: 10%;
+    font-size: 4rem;
+    text-align: center;
+    margin-top: 7%;
+}
+
+.parrafo{
+    font-size: 5.5rem;
+    font-family: cursive;
+    text-align: center;
+    color: white;
+    margin-top: 10%;
+    margin-bottom: 10%;
+
+}
+
+.precio-chiquito{
+    font-family: sans-serif;
+    font-size: 8rem;
+    color: white;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.detener{
+    width: 70%;
+    height: 20%;
+    background-color: crimson;
+    border-radius: 15pt;
+
+    margin-top: 5%;
+    margin-left: 15%;
+
+    font-size: 7rem;
+    color: #fff;
+    letter-spacing: 2pt;
+}
+
+
 /* cuenta regresiva  http://codepen.io/MehmetCanker/pen/jluqp */
 
 /* formas de centrar -> https://escss.blogspot.com/2012/05/centrando-al-centro-con-css-16-maneras.html */
