@@ -1,6 +1,7 @@
 #!/bin/env node
 
 var express = require('express');
+var cors    = require('cors');
 var fs      = require('fs');
 var path    = require('path');
 var mongodb = require('mongodb');
@@ -24,69 +25,6 @@ var App = function(){
   };
 
 
-  // Web app logic
-  self.routes = {};
-  self.routes['health'] = function(req, res){ res.send('1'); };
-  
-  //default response with info about app URLs
-  self.routes['root'] = function(req, res){ 
-    res.sendFile(path.join(__dirname+'/index.html'));
-  };
-
-  //returns all the parks in the collection
-  self.routes['returnAllParks'] = function(req, res){
-    self.db.collection('parkpoints').find().toArray(function(err, names) {
-      res.header("Content-Type:","application/json");
-      res.end(JSON.stringify(names));
-    });
-  };
-
-  //find a single park by passing in the objectID to the URL
-  self.routes['returnAPark'] = function(req, res){
-      var BSON = mongodb.BSONPure;
-      var parkObjectID = new BSON.ObjectID(req.params.id);
-      self.db.collection('parkpoints').find({'_id':parkObjectID}).toArray(function(err, names){
-        res.header("Content-Type:","application/json"); 
-        res.end(JSON.stringify(names));
-      });
-  }
-
-  //find parks near a certain lat and lon passed in as query parameters (near?lat=45.5&lon=-82)
-  self.routes['returnParkNear'] = function(req, res){
-    //in production you would do some sanity checks on these values before parsing and handle the error if they don't parse
-    var lat = parseFloat(req.query.lat);
-    var lon = parseFloat(req.query.lon);
-    self.db.collection('parkpoints').find( {"pos" : {$near: [lon,lat]}}).toArray(function(err,names){
-      res.header("Content-Type:","application/json");
-      res.end(JSON.stringify(names));
-    });
-  };
-
-  //find parks near a certain park name, lat and lon (name?lon=10&lat=10)
-  self.routes['returnParkNameNear'] = function(req, res){
-    //in production you would do some sanity checks on these values before parsing and handle the error if they don't parse
-    var lat = parseFloat(req.query.lat);
-    var lon = parseFloat(req.query.lon);
-    var name = req.params.name;
-    self.db.collection('parkpoints').find( {"Name" : {$regex : name, $options : 'i'}, "pos" : { $near : [lon,lat]}}).toArray(function(err,names){
-      res.header("Content-Type:","application/json");
-      res.end(JSON.stringify(names));
-    });
-  };
-
-  //saves new park
-  self.routes['postAPark'] = function(req, res){
-    //in production you would do some sanity checks on these values before parsing and handle the error if they don't parse
-    var lat = parseFloat(req.body.lat);
-    var lon = parseFloat(req.body.lon);
-    var name = req.body.name;
-    self.db.collection('parkpoints').insert( {'Name' : name, 'pos' : [lon,lat]}, {w:1}, function(err, records){
-    if (err) { throw err; }
-    res.end('success');
-    });
-  };
-
-
   // Web app urls
   self.app  = express();
 
@@ -98,16 +36,14 @@ var App = function(){
   // parse application/json
   self.app.use(bodyParser.json());
   // override with POST having ?_method=DELETE
-  self.app.use(methodOverride('_method'))
+  self.app.use(methodOverride('_method'));
+  // Allow CORS
+  self.app.use(cors());
 
-  //define all the url mappings
-  self.app.get('/health', self.routes['health']);
-  self.app.get('/', self.routes['root']);
-  self.app.get('/ws/parks', self.routes['returnAllParks']);
-  self.app.get('/ws/parks/park/:id', self.routes['returnAPark']);
-  self.app.get('/ws/parks/near', self.routes['returnParkNear']);
-  self.app.get('/ws/parks/name/near/:name', self.routes['returnParkNameNear']);
-  self.app.post('/ws/parks/park', self.routes['postAPark']);
+  //define the url mapping
+  self.app.get('/', function(req, res){
+    res.sendFile(path.join(__dirname+'/index.html'));
+  });
 
 
   // Chanchada
