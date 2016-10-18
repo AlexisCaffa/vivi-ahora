@@ -4,6 +4,7 @@ var express = require('express');
 var fs      = require('fs');
 var path    = require('path');
 var mongodb = require('mongodb');
+var rutas   = require('./routes');
 
 var App = function(){
 
@@ -130,6 +131,19 @@ var App = function(){
   self.app.get('/ws/parks/near', self.routes['returnParkNear']);
   self.app.get('/ws/parks/name/near/:name', self.routes['returnParkNameNear']);
   self.app.post('/ws/parks/park', self.routes['postAPark']);
+
+
+  // Chanchada
+  global.db = self.db;
+
+  /*
+    Para cada una de nuestras rutas..
+   */
+  var i;
+  for (i=0; i<rutas.length; i++) {
+    var ruta = rutas[i];
+    self.app[ ruta.metodo ]( ruta.ruta, ruta.funcion );
+  }
 
   // Logic to open a database connection. We are going to call this outside of app so it is available to all our functions inside.
   self.connectDb = function(callback){
