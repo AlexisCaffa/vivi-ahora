@@ -5,7 +5,7 @@ var cors    = require('cors');
 var fs      = require('fs');
 var path    = require('path');
 var mongodb = require('mongodb');
-var rutas   = require('./routes');
+var rutas   = require('./interacciones');
 
 var App = function(){
 
