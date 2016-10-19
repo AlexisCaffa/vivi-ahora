@@ -2,14 +2,27 @@ module.exports = [
 
   //Precio
   {
-    ruta: 'precio',
+    ruta: '/precio',
     metodo: 'get',
     funcion: function (req, res) {
-      res.json({
-        precio: 554.43
-      })
+
+      // esta linea es mugre, porque deberia sacarlo de la base de datos
+      var tiempo_img = new Date(2016, 9, 19, 16, 0, 0);
+      console.log(tiempo_img);
+
+      // obtengo la diferencia en segundos
+      var tiempo_inicial = new Date() - tiempo_img;
+
+      var precio = 1000 - tiempo_inicial/1000/100;
+
+      var obj = {
+        precio: precio
+      };
+
+      res.json( obj )
     }
   },
+
 
   //-----------------------Ejemplos--------------------------
 
