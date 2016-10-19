@@ -1,5 +1,18 @@
 module.exports = [
 
+  //Precio
+  {
+    ruta: 'precio',
+    metodo: 'get',
+    funcion: function (req, res) {
+      res.json({
+        precio: 554.43
+      })
+    }
+  },
+
+  //-----------------------Ejemplos--------------------------
+
   // Time
   {
     ruta: '/time',
