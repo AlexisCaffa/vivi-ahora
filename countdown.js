@@ -1,23 +1,27 @@
 var elemento_precio = jQuery("#precio");
 
-var i= 999.99;
+jQuery.get('http://viviahora-lucuma.rhcloud.com/precio', function (res) {
 
-var intervalo;
+    var i= Number( res.precio.toFixed(2) );
+    var intervalo;
 
-function disminuir(){
-    console.log (i);
+    elemento_precio.text( i );
 
-    i = Number( i.toFixed(2) );
-
-    elemento_precio.text(i);
-
-    i = i - 0.01;
-
-    if ( i < 0) {
-        console.log("en este momento i < 0");
+    function disminuir(){
         console.log (i);
-        clearInterval(intervalo);
-    }
-}
 
-intervalo = setInterval( disminuir, 1000 );
+        i = Number( i.toFixed(2) );
+
+        elemento_precio.text(i);
+
+        i = i - 0.01;
+
+        if ( i < 0) {
+            console.log("en este momento i < 0");
+            console.log (i);
+            clearInterval(intervalo);
+        }
+    }
+
+    intervalo = setInterval( disminuir, 1000 );
+});
